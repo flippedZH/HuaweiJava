@@ -1,8 +1,12 @@
 package com.huawei.roma3c.port.service;
 
 
+import com.huawei.roma3c.port.dao.UserMapper;
 import com.huawei.roma3c.port.utils.AssertUtil;
+import com.huawei.roma3c.port.utils.Md5Util;
+import com.huawei.roma3c.port.vo.User;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,8 +17,13 @@ import org.springframework.stereotype.Service;
  */
 
 
+
+
 @Service
 public class UserService {
+
+    @Autowired
+    private UserMapper userMapper;//?
 
     public  void func(String userName,String passWord){
         /**
@@ -31,13 +40,18 @@ public class UserService {
         *                   正确
         *                      返回应对的信息
         */
-        //运行时异常==程序直接终止
-        AssertUtil.isTrue(StringUtils.isBlank(userName),"用户名为空");
-        AssertUtil.isTrue(StringUtils.isBlank(userName),"密码为空");
 
-
+        checkPasswordParams(userName,passWord);
+        User user=userMapper.queryUserByUserName(userName);
+        AssertUtil.isTrue(null==user,"用户不存在");
+        AssertUtil.isTrue((user.getUserPwd()).equals(Md5Util.encode(passWord)),"密码错误");
     }
 
 
+    private void checkPasswordParams(String userName,  String passWord) {
+        //运行时异常==程序直接终止
+        AssertUtil.isTrue(StringUtils.isBlank(userName),"用户名为空");
+        AssertUtil.isTrue(StringUtils.isBlank(passWord),"密码为空");
+    }
 
 }
