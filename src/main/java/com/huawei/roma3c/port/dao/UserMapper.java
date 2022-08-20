@@ -12,9 +12,6 @@ import java.util.Map;
  */
 public interface UserMapper extends BaseMapper<User, Integer> {
 
-
-    User queryUserByUserName(String userName);
-
     // 通过用户名查询用户记录，返回用户对象
     public User queryUserByName(String userName);
 

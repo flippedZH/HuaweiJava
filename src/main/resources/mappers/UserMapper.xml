@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.xxxx.crm.dao.UserMapper" >
-  <resultMap id="BaseResultMap" type="com.xxxx.crm.vo.User" >
+<mapper namespace="com.huawei.roma3c.port.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.huawei.roma3c.port.vo.User" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="user_name" property="userName" jdbcType="VARCHAR" />
     <result column="user_pwd" property="userPwd" jdbcType="VARCHAR" />
@@ -12,11 +12,9 @@
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
   </resultMap>
-
   <sql id="Base_Column_List" >
     id, user_name, user_pwd, true_name, email, phone, is_valid, create_date, update_date
   </sql>
-
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -27,7 +25,7 @@
     delete from t_user
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.xxxx.crm.vo.User" >
+  <insert id="insert" parameterType="com.huawei.roma3c.port.vo.User" >
     insert into t_user (id, user_name, user_pwd, 
       true_name, email, phone, 
       is_valid, create_date, update_date
@@ -46,7 +44,7 @@
 
         返回的主键会自动设置到实体类中对应的id属性字段中
   -->
-  <insert id="insertSelective" parameterType="com.xxxx.crm.vo.User" useGeneratedKeys="true" keyProperty="id" keyColumn="id" >
+  <insert id="insertSelective" parameterType="com.huawei.roma3c.port.vo.User" useGeneratedKeys="true" keyProperty="id" keyColumn="id" >
     insert into t_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -107,7 +105,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.xxxx.crm.vo.User" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.huawei.roma3c.port.vo.User" >
     update t_user
     <set >
       <if test="userName != null" >
@@ -137,7 +135,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.xxxx.crm.vo.User" >
+  <update id="updateByPrimaryKey" parameterType="com.huawei.roma3c.port.vo.User" >
     update t_user
     set user_name = #{userName,jdbcType=VARCHAR},
       user_pwd = #{userPwd,jdbcType=VARCHAR},
@@ -152,7 +150,7 @@
 
 
   <!-- 通过用户名查询用户记录，返回用户对象 -->
-  <select id="queryUserByName" parameterType="string" resultType="com.xxxx.crm.vo.User">
+  <select id="queryUserByName" parameterType="string" resultType="com.huawei.roma3c.port.vo.User">
     select
         <include refid="Base_Column_List"/>
     from
@@ -184,7 +182,7 @@
   </select>
 
   <!-- 多条件查询 -->
-  <select id="selectByParams" parameterType="com.xxxx.crm.query.UserQuery" resultType="com.xxxx.crm.vo.User">
+  <select id="selectByParams" parameterType="com.huawei.roma3c.port.query.UserQuery" resultType="com.huawei.roma3c.port.vo.User">
     select
         <include refid="Base_Column_List"></include>
     from
@@ -243,11 +241,5 @@
       and
        r.role_name = '客户经理'
   </select>
-
-  <select id="queryUserByUserName" parameterType="string">
-    select  <include refid="Base_Column_List"/>
-    from t_user
-    where  user_name=#{userName}
- </select>
 
 </mapper>
