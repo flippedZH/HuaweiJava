@@ -40,14 +40,9 @@ public class UserService  extends BaseService {
         *                   正确
         *                      返回应对的信息
         */
-        System.out.println("新");
-        System.out.println(userName);
-        System.out.println(passWord);
         checkPasswordParams(userName,passWord);
         User user= userMapper.queryUserByName(userName);
         AssertUtil.isTrue(null==user,"用户不存在");
-        String  p1=Md5Util.encode(passWord);
-        String  p2=user.getUserPwd();
         AssertUtil.isTrue(!(user.getUserPwd()).equals(Md5Util.encode(passWord)),"密码错误");
         // 返回构建用户对象
         return buildUserInfo(user);

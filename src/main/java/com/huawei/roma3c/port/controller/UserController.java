@@ -37,8 +37,6 @@ public class UserController  extends BaseController {
     @RequestMapping("/user/login")
     @ResponseBody
     public ResultInfo login (String userName,String userPwd){
-        System.out.println(userName);
-        System.out.println(userPwd);
         ResultInfo resultInfo=new ResultInfo();
         /**
         * 登陆成功后：
@@ -46,18 +44,8 @@ public class UserController  extends BaseController {
         * 2、将用户信息保存在客户端：cookie
         *
         * */
-        try {
-            UserModel userModel = userService.loginService(userName,userPwd);
-            resultInfo.setResult(userModel);
-        } catch (ParamsException p) {
-            resultInfo.setCode(p.getCode());
-            resultInfo.setMsg(p.getMsg());
-            p.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-            resultInfo.setCode(500);
-            resultInfo.setMsg("登录失败！");
-        }
+        UserModel userModel = userService.loginService(userName,userPwd);
+        resultInfo.setResult(userModel);
         return resultInfo;
     }
 
@@ -66,17 +54,12 @@ public class UserController  extends BaseController {
     public ResultInfo updatePassword (HttpServletRequest request, String oldPassword, String newPassword, String confirmPassword){
         Integer userId = LoginUserUtil.releaseUserIdFromCookie(request);
         ResultInfo resultInfo=new ResultInfo();
-        try {
-            userService.updateUserPassword(userId,oldPassword, newPassword,confirmPassword);
-        } catch (ParamsException p) {
-            resultInfo.setCode(p.getCode());
-            resultInfo.setMsg(p.getMsg());
-            p.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-            resultInfo.setCode(500);
-            resultInfo.setMsg("密码修改失败！");
-        }
+        userService.updateUserPassword(userId,oldPassword, newPassword,confirmPassword);
         return resultInfo;
+    }
+
+    @RequestMapping("/user/toPasswordPage")
+    public String toUpdatePasswordPage(){
+        return  "user/password";
     }
 }
